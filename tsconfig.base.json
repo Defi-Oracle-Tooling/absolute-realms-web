@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@absolute-realms/ui": ["libs/ui/src"],
+      "@absolute-realms/config": ["libs/config/src"],
+      "@absolute-realms/utils": ["libs/utils/src"]
+    },
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}

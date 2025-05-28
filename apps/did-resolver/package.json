@@ -1,0 +1,16 @@
+{
+  "name": "did-resolver",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node-dev src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@azure/functions": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "ts-node-dev": "^2.0.0"
+  }
+}

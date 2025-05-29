@@ -17,5 +17,8 @@ npm-debug.log*
 Thumbs.db
 
 # IDE directories
-.vscode/
+
 .idea/
+
+# Ignore Terraform directories
+.terraform/

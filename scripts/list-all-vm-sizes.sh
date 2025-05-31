@@ -6,6 +6,7 @@ trap 'echo "[ERROR] An unexpected error occurred. Exiting." >&2' ERR
 trap 'echo "[INFO] Script interrupted by user." >&2; exit 1' INT TERM
 
 # Load environment variables from .env (if present)
+# shellcheck source=.env
 if [ -f .env ]; then
   echo "Loading environment variables from .env..."
   set -o allexport && source .env && set +o allexport
@@ -53,17 +54,19 @@ export AZURE_BEARER_TOKEN
 retry() {
   local n=1 max=3 delay=1
   while true; do
-    "$@" && break || {
+    if "$@"; then
+      break
+    else
       if [ $n -lt $max ]; then
         echo "Command failed (attempt $n/$max). Retrying in $delay seconds..." >&2
         sleep $delay
         n=$((n+1))
         delay=$((delay*2))
       else
-        echo "Error: Command failed after $n attempts: $*" >&2
-        exit 1
+        echo "Command failed after $n attempts." >&2
+        return 1
       fi
-    }
+    fi
   done
 }
 # Export retry so xargs subshells can see it

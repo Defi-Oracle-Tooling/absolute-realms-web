@@ -97,6 +97,21 @@ region_worker() {
   fi
 }
 
+# Added spinner/progress bar for better user experience
+spinner() {
+  local pid=$1
+  local delay=0.1
+  local spinstr='|/-\\'
+  while [ -d /proc/$pid ]; do
+    local temp=${spinstr#?}
+    printf " [%c]  " "$spinstr"
+    local spinstr=$temp${spinstr%"}"}
+    sleep $delay
+    printf "\b\b\b\b\b\b"
+  done
+  printf "    \b\b\b\b"
+}
+
 main() {
   mkdir -p "$CACHE_DIR"
   log "Gathering VM sizes for selected regions (parallel=$PARALLEL_JOBS, cache=$CACHE_DIR)..."
@@ -106,6 +121,7 @@ main() {
   for idx in "${!REGION_LIST[@]}"; do
     region="${REGION_LIST[$idx]}"
     region_worker "$region" "$((idx+1))" "$total_regions" &
+    spinner $!
     job_count=$((job_count+1))
     if (( job_count % PARALLEL_JOBS == 0 )); then wait; fi
   done

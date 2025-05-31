@@ -86,6 +86,11 @@ def main():
     region = sys.argv[3] if len(sys.argv) > 3 else None
     vm_size = sys.argv[4] if len(sys.argv) > 4 else None
 
+    # Added support for additional VM configurations
+    if len(sys.argv) > 5:
+        os_disk_size = sys.argv[5]
+        BICEP_TEMPLATE = BICEP_TEMPLATE.replace("osDisk: { createOption: 'FromImage' }", f"osDisk: {{ createOption: 'FromImage', diskSizeGB: {os_disk_size} }}")
+
     # Pick best value VM if not specified
     with open(input_csv, newline='') as f:
         reader = list(csv.DictReader(f))

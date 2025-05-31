@@ -111,6 +111,32 @@ You can further expand recommendations by editing the scripts in `scripts/`.
 - [Sitemap XML](apps/website/public/sitemap.xml)
 - [Persona Biographies, Style Guide, and Press Releases](content.md)
 
+## Using the Scripts
+
+### VM Summary Report
+
+Run the `vm-summary-report-advanced.py` script to generate advanced analytics and recommendations:
+
+```bash
+python3 scripts/vm-summary-report-advanced.py <input-csv>
+```
+
+### Bicep Template Generation
+
+Generate a Bicep template for deploying a recommended VM size:
+
+```bash
+python3 scripts/vm-arch-bicepgen.py <input-csv> <output-bicep>
+```
+
+### Quota CSV Script
+
+Run the `vm-quota-csv.sh` script to gather VM quota data:
+
+```bash
+bash scripts/vm-quota-csv.sh --regions "eastus,westus" --output "output.csv"
+```
+
 ## Getting Started
 
 To set up the project locally:

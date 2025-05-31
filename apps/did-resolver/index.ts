@@ -6,8 +6,17 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     const responseMessage = {
         "@context": "https://www.w3.org/ns/did/v1",
         "id": "did:web:absoluterealms.world",
-        "verificationMethod": [],
-        "authentication": []
+        "verificationMethod": [
+            {
+                "id": "did:web:absoluterealms.world#key-1",
+                "type": "RsaVerificationKey2018",
+                "controller": "did:web:absoluterealms.world",
+                "publicKeyPem": "-----BEGIN PUBLIC KEY-----\n...\n-----END PUBLIC KEY-----"
+            }
+        ],
+        "authentication": [
+            "did:web:absoluterealms.world#key-1"
+        ]
     };
 
     context.res = {

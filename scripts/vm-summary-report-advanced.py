@@ -97,6 +97,10 @@ def main():
         f.write("- Review region coverage and select regions with the best quota and price.\n")
         f.write("- For high availability, deploy across multiple regions.\n")
         f.write("- Use reserved instances for long-term, steady-state workloads.\n")
+        f.write("\n## Visualization Recommendations\n\n")
+        f.write("- Use bar charts to compare VM prices across regions.\n")
+        f.write("- Use pie charts to show the distribution of VM sizes.\n")
+        f.write("- Use line graphs to track price trends over time.\n")
         f.write("\n---\n")
     # JSON output
     summary = {

@@ -65,19 +65,70 @@ Comprehensive documentation is available in the `content.md` file, which include
 - Legal charters.
 - Persona biographies.
 
+## Feature Overview
+
+Absolute Realms Web provides:
+
+- Automated Azure VM inventory, quota, and pricing reports
+- Best-value VM recommendations and architecture generation
+- CI/CD workflows for full automation and scheduled reporting
+- Modular, extensible content and infrastructure
+
+## Automated Reports & CI/CD
+
+The `.github/workflows/vm-report-automation.yml` workflow automates:
+
+- Running the VM quota and pricing scripts
+- Generating summary reports and Bicep deployment templates
+- Uploading all results as build artifacts
+
+Artifacts include:
+
+- `vm-sizes-quotas.csv` — VM size/region/quota data
+- `vm-sizes-quotas-pricing.csv` — Data joined with up-to-date Azure pricing
+- `summary.txt` — Automated summary and recommendations
+- `best-value-vm.bicep` — Bicep template for best-value VM deployment
+
+## Advanced Recommendations
+
+The reporting pipeline analyzes all available VM sizes and regions, pricing, and quotas to recommend:
+
+- The best-value VM (lowest price per vCPU)
+- Regions with optimal availability and cost
+- Automated Bicep templates for rapid deployment
+
+You can further expand recommendations by editing the scripts in `scripts/`.
+
+## Extending & Customizing
+
+- To add new website sections, update `content.md` and the website source in `apps/website/`.
+- To add new automation or reports, add scripts to `scripts/` and update the GitHub Actions workflow.
+- For new personas, style guides, or press releases, see the prompts at the end of `content.md`.
+
+## Links to Key Content
+
+- [Expanded Website Content](content.md)
+- [Sitemap XML](apps/website/public/sitemap.xml)
+- [Persona Biographies, Style Guide, and Press Releases](content.md)
+
 ## Getting Started
 
 To set up the project locally:
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/your-repo/absolute-realms-web.git
    ```
+
 2. Install dependencies:
+
    ```bash
    pnpm install
    ```
+
 3. Start the development server:
+
    ```bash
    pnpm dev
    ```

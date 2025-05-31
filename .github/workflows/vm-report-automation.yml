@@ -1,0 +1,47 @@
+name: Azure VM Report Automation
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *' # Daily at 3am UTC
+
+jobs:
+  vm-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install requests
+      - name: Azure CLI login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Run VM Quota Script
+        run: bash scripts/vm-quota-csv.sh --output vm-sizes-quotas.csv
+      - name: Join Pricing Data
+        run: python scripts/vm-pricing-join.py vm-sizes-quotas.csv vm-sizes-quotas-pricing.csv
+      - name: Generate Summary Report
+        run: python scripts/vm-summary-report.py vm-sizes-quotas-pricing.csv > summary.txt
+      - name: Generate Advanced Summary (Markdown/JSON)
+        run: python scripts/vm-summary-report-advanced.py vm-sizes-quotas-pricing.csv
+      - name: Generate Mermaid Architecture Diagram
+        run: python scripts/vm-arch-mermaidgen.py vm-sizes-quotas-pricing.csv
+      - name: Generate Bicep Template
+        run: python scripts/vm-arch-bicepgen.py vm-sizes-quotas-pricing.csv best-value-vm.bicep
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: vm-reports
+          path: |
+            vm-sizes-quotas.csv
+            vm-sizes-quotas-pricing.csv
+            summary.txt
+            best-value-vm.bicep
+            vm-sizes-quotas-pricing-summary.md
+            vm-sizes-quotas-pricing-summary.json
+            vm-sizes-quotas-pricing-arch.md
